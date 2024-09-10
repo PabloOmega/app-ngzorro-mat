@@ -1,0 +1,20 @@
+<nz-table nzBordered [nzData]="registers" >
+    <thead>
+        <tr>
+            <th nzWidth="25%">Nickname</th>
+            <th nzWidth="15%">Email</th>
+            <th nzWidth="40%">Role</th>
+            <th nzWidth="20%">Imagen</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let register of registers;">
+            <td>{{ register.nickname }}</td>
+            <td>{{ register.email }}</td>
+            <td>{{ register.role }}</td>
+            <td><img [src]="register.photoURL" [alt]="register.nickname"></td>
+            <td><button nz-button nzType="primary" (click)="onSendEmail(register)">Enviar Correo</button></td>
+        </tr>
+    </tbody>
+</nz-table>

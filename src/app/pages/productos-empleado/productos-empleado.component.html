@@ -1,0 +1,16 @@
+<nz-table #editRowTable nzBordered [nzData]="productos" >
+    <thead>
+        <tr>
+            <th nzWidth="25%">Nombre</th>
+            <th nzWidth="15%">Descripcion</th>
+            <th nzWidth="40%">Precio</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let producto of productos;">
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio }}</td>
+        </tr>
+    </tbody>
+</nz-table>

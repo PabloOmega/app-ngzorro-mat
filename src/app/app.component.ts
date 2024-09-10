@@ -45,6 +45,7 @@ export class AppComponent {
   }
 
   onClickLogout() : void {
+    this.registersService.currentRegister = undefined;
     this.usersService.logout();
   }
 }

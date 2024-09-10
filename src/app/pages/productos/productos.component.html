@@ -1,0 +1,42 @@
+<form nz-form [formGroup]="form" (ngSubmit)="onClickSubmit()">
+    <nz-form-item>
+        <nz-form-label nzRequired nzLabelAlign="left" nzSpan="4">Nombre</nz-form-label>
+        <nz-form-control nzErrorTip="Por favor ingrese el nombre del producto" nzSpan="8">
+            <input formControlName="nombre" nz-input placeholder="Nombre del Producto" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzRequired nzLabelAlign="right" nzSpan="4">Descripcion</nz-form-label>
+        <nz-form-control nzErrorTip="Por favor ingrese la Descripcion del Producto" nzSpan="8">
+            <input formControlName="descripcion" nz-input type="text" placeholder="Descripcion del Producto" />
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-label nzRequired nzLabelAlign="right" nzSpan="4">Precio</nz-form-label>
+        <nz-form-control nzErrorTip="Por favor ingrese el Precio del Producto" nzSpan="8">
+            <input formControlName="precio" nz-input type="number" placeholder="Precio del Producto" />
+        </nz-form-control>
+    </nz-form-item>
+    <button nz-button nzType="primary" type="submit">Agregar Producto</button>
+</form>
+
+<nz-table #editRowTable nzBordered [nzData]="productos" >
+    <thead>
+        <tr>
+            <th nzWidth="25%">Nombre</th>
+            <th nzWidth="15%">Descripcion</th>
+            <th nzWidth="40%">Precio</th>
+            <th>Actualizar</th>
+            <th>Eliminar</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let producto of productos;">
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.descripcion }}</td>
+            <td>{{ producto.precio }}</td>
+            <td><button nz-button nzType="primary" (click)="onClickUpdate(producto.id)">Editar</button></td>
+            <td><button nz-button nzDanger (click)="onClickDelete(producto.id)">Eliminar</button></td>
+        </tr>
+    </tbody>
+</nz-table>
