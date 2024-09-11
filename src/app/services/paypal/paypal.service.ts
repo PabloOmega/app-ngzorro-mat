@@ -1,12 +1,85 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment.development';
 
 export interface AccessToken {
   access_token: string;
   token_type: string;
   expires_in: number;
   scope: string;
+}
+
+export interface WebProfile {
+  id: string;
+  name: string;
+  temporary: boolean;
+  presentation: {
+    logo_image: string;
+  },
+  input_fields: {
+    no_shipping: boolean;
+    address_override: boolean;
+  },
+  flow_config: {
+    landing_page_type: string;
+    bank_txn_pending_url: string;
+  }
+}
+
+export interface Payment {
+  id: string;
+  create_time: string;
+  update_time: string;
+  intent: string;
+  payer: {
+    payment_method: string;
+    payer_info: {
+      shipping_address: {
+        
+      }
+    }
+  }
+  transactions: [
+    {
+      amount: {
+        total: string;
+        currency: string;
+        details: {
+          subtotal: string;
+          tax: string;
+          shipping: string;
+        }
+      }
+      description: string;
+      item_list: {
+        items: [
+          {
+            name: string;
+            sku: string;
+            price: string;
+            currency: string;
+            quantity: string;
+          }
+        ],
+        shipping_address: {
+          recipient_name: string;
+          line1: string;
+          line2: string;
+          city: string;
+          state: string;
+          postal_code: string;
+          country_code: string;
+          phone: string;
+        }
+      }
+    }
+  ],
+  links: {
+      href: string;
+      rel: string;
+      method: string;
+  }[],
 }
 
 @Injectable({
@@ -17,8 +90,8 @@ export class PaypalService {
   urlToken = 'https://api.sandbox.paypal.com/v1/oauth2/token';
   urlPaymentExperience = 'https://api-m.sandbox.paypal.com/v1/payment-experience/web-profiles/';
   urlPayment = 'https://api-m.sandbox.paypal.com/v1/payments/payment';
-  private clientId = 'AchyPh3uFMopeDOugSd4eB3yJxMjXO-p1R34jHkjUvtVvVpgssosaRxJguRtcgToPYK8YvXaw6WAmg3O';
-  private secret = 'EEug8-xO_HUGmC2_VstJ9JJ7d-0UlbNnybnoaPpKsXGZP4Z6_lrkK6kjsSSl_JbhzsD-DjLcz4XOtlnX';
+  private clientId = environment.clientId;
+  private secret = environment.secret;
 
   constructor(private http: HttpClient) { }
 
@@ -34,7 +107,7 @@ export class PaypalService {
     return this.http.post<AccessToken>(this.urlToken, body.toString(), { headers });
   }
 
-  createWebProfile(accessToken: string): Observable<any> {
+  createWebProfile(accessToken: string, name: string): Observable<WebProfile> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -42,7 +115,7 @@ export class PaypalService {
     });
 
     const body = {
-      name: 'ebayProfile',
+      name,
       presentation: {
         logo_image: 'https://www.paypal.com'
       },
@@ -56,10 +129,10 @@ export class PaypalService {
       }
     };
 
-    return this.http.post<any>(this.urlPaymentExperience, body, { headers });
+    return this.http.post<WebProfile>(this.urlPaymentExperience, body, { headers });
   }
   
-  createPayment(accessToken: string, experience_profile_id: string, return_url: string, cancel_url: string): Observable<any> {
+  createPayment(accessToken: string, experience_profile_id: string, return_url: string, cancel_url: string): Observable<Payment> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
@@ -119,7 +192,7 @@ export class PaypalService {
       }
     };
 
-    return this.http.post<any>(this.urlPayment, body, { headers });
+    return this.http.post<Payment>(this.urlPayment, body, { headers });
   }  
 
 }

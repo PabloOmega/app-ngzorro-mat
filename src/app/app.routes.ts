@@ -7,6 +7,7 @@ import { rolesGuard } from './guards/roles.guard';
 import { RegistersService } from './services/registers/registers.service';
 import { inject } from '@angular/core';
 import { UsersComponent } from './pages/users/users.component';
+import { PagosComponent } from './pages/pagos/pagos.component';
 import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 
 function isRole(role?: String){
@@ -21,6 +22,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'users', component: UsersComponent },
+  { path: 'pagos', component: PagosComponent },
   { 
     path: 'productos', 
     component: ProductosComponent,

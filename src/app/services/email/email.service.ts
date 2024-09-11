@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 })
 export class EmailService {
   private apiUrl = 'https://api.brevo.com/v3/smtp/email';
-  private apiKey = process.env['BREVO_API_KEY'];
+  private apiKey = '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';
 
   constructor(private http: HttpClient) {}
 
@@ -14,7 +14,7 @@ export class EmailService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'accept': 'application/json',
-      'api-key': this.apiKey!,
+      'api-key': this.apiKey,
     });
 
     const body = {
